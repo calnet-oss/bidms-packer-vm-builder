@@ -57,9 +57,10 @@ going on in general, you can see the VM console using a couple different
 means:
 * If your session is X-capable, turn headless mode off by editing
 [packer-bidms.json](packer-bidms.json) and changing `headless` to `false`.
-* Connect to the QEMU console during installation by using a VNC client. 
-When running the [build-qemu.sh](build-qemu.sh) script, Packer will give you
-the VNC port number to use.
+* Connect to the QEMU console during installation by using a [VNC
+client](http://www.tightvnc.com/).  When running the
+[build-qemu.sh](build-qemu.sh) script, Packer will give you the VNC port
+number to use.
 
 # License
 
