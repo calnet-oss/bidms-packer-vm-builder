@@ -38,7 +38,7 @@ use a new Debian release.
 * The most important thing to note is the password for the user account
   created during Debian installation.  By default, the password checked into
   this repository is extremely obvious, insecure and known by all.  Change
-  it.  this would be the `passwd/user-password` and
+  it.  This would be the `passwd/user-password` and
   `passwd/user-password-again` lines.  This username and password is also
   configured in [packer-bidms.json](../packer-bidms.json) as `ssh_user` and
   `ssh_pass`.
@@ -46,7 +46,7 @@ use a new Debian release.
   it is highly recommended you do so (see
   [bidms-docker-apt-cacher](http://github.com/calnet-oss/bidms-docker-apt-cacher))
   because you're going to be downloading files from APT over and over again
-  when using Packer to build Debian VMs.  Look for the `mirror/http' lines
+  when using Packer to build Debian VMs.  Look for the `mirror/http` lines
   in the preseed file and especially the `mirror/http/hostname`.  The APT
   cache proxy hostname is also configured in
   [packer-bidms.json](../packer-bidms.json) as `replace_deb_mirror` and
