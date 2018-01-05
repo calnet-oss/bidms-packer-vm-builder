@@ -1,8 +1,8 @@
 # Downloading Debian
 
-First, if you haven't done so yet, install the Debian GPG public key so you
-can verify Debian downloads.  Run the [installDebianKey.sh](installDebianKey.sh)
-script to do this.
+First, if you haven't done so yet, install the [Debian GPG public
+key](https://keyring.debian.org/) so you can verify Debian downloads.  Run
+the [installDebianKey.sh](installDebianKey.sh) script to do this.
 
 Then run the [downloadDebian.sh](downloadDebian.sh) script.  This script
 invokes [verifyDebian.sh](verifyDebian.sh).  Don't continue until the
