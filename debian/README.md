@@ -16,7 +16,7 @@ example preseed file provided by Debian for each release.
 Download the example preseed from:
 https://www.debian.org/releases/RELEASENAME/example-preseed.txt (also
 provided for the Debian release in use in the local
-[example-preseed.txt](example-preseed.txt.orig) file).
+[example-preseed.txt.orig](example-preseed.txt.orig) file).
 
 Replace RELEASENAME with the appropriate name for the release: e.g., if
 using the stretch release:
