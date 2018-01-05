@@ -1,8 +1,8 @@
 This uses [Packer](http://www.packer.io/) to build a
-[Debian](http://www.debian.org/) BIDMS virtual machine.  Currently, a
-[QEMU](http://www.qemu.org/) virtual machine image is created.  Our [Packer
-directives file](packer-bidms.json) also has a
-[VirtualBox](http://www.virtualbox.org/) provisioner however this not yet
+[Debian](http://www.debian.org/) Berkeley Identity Management Suite (BIDMS)
+virtual machine.  Currently, a [QEMU](http://www.qemu.org/) virtual machine
+image is created.  Our [Packer directives file](packer-bidms.json) also has
+a [VirtualBox](http://www.virtualbox.org/) provisioner however this not yet
 well tested and is, for the most part, currently unused.
 
 Packer must be installed to run these scripts to build the virtual machine. 
