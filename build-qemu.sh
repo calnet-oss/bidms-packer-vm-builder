@@ -31,4 +31,7 @@ if [ -e output-qemu ]; then
   echo "Deleting previous build in the output-qemu directory"
   rm -rf output-qemu
 fi
-time packer build -parallel=false -only=qemu $* packer-bidms.json
+time packer build -parallel=false \
+  -only=qemu \
+  $* \
+  packer-bidms.json
