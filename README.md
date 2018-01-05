@@ -13,9 +13,9 @@ file](packer-bidms.json).  There are a few things you will probably need to
 configure in the [debian/debian-preseed.cfg](debian/debian-preseed.cfg) and
 [packer-bidms.json](packer-bidms.json) files.  The top two configuration
 items would be the default user password and the [APT cache
-proxy](/calnet-oss/bidms-docker-apt-cacher) hostname.  Both of these items
-are configured in both the preseed file and the Packer directives file, so
-if you modify one file you have to modify the other too.
+proxy](http://github.com/calnet-oss/bidms-docker-apt-cacher) hostname.  Both
+of these items are configured in both the preseed file and the Packer
+directives file, so if you modify one file you have to modify the other too.
 
 You also need to download and verify the Debian installer image.  See
 [debian/README.md](debian/README.md) for instructions.
