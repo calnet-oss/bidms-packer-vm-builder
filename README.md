@@ -13,9 +13,9 @@ file](packer-bidms.json).  There are a few things you will probably need to
 configure in the [debian/debian-preseed.cfg](debian/debian-preseed.cfg) and
 [packer-bidms.json](packer-bidms.json) files.  The top two configuration
 items would be the default user password and the [APT cache
-proxy](http://github.com/calnet-oss/bidms-docker-apt-cacher) hostname.  Both
-of these items are configured in both the preseed file and the Packer
-directives file, so if you modify one file you have to modify the other too.
+proxy](http://github.com/calnet-oss/bidms-docker-apt-cacher) host.  The
+password appears in both the preseed file and the Packer directives file,
+while the APT cache proxy host appears in the preseed file.
 
 You also need to download and verify the Debian installer image.  See
 [debian/README.md](debian/README.md) for instructions.
@@ -61,6 +61,13 @@ means:
 client](http://www.tightvnc.com/).  When running the
 [build-qemu.sh](build-qemu.sh) script, Packer will give you the VNC port
 number to use.
+
+# Running the VM
+
+You have flexibility with the command line options you wish to use for QEMU
+to run the VM, but a [run-qemu.sh](run-qemu.sh) script is provided as a
+baseline.  The options used in this script are very similar to the options
+used by Packer while creating the VM.
 
 # License
 

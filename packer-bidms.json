@@ -2,10 +2,7 @@
     "variables": {
         "ssh_user": "bidms",
         "ssh_pass": "bidms",
-        "debian_release": "stretch",
-        "replace_deb_mirror": "{{ .HTTPIP }}:13142/ftp.debian.org",
-        "replace_deb_mirror_with": "ftp.us.debian.org",
-        "deb_mirror_proxy": "http://{{ .HTTPIP }}:13142"
+        "debian_release": "stretch"
     },
     "builders": [
         {
@@ -81,8 +78,9 @@
             "inline": [
                 "echo '{{user `ssh_pass`}}' | sudo -S sed -i 's/%sudo\\tALL=(ALL:ALL) ALL/%sudo\\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers",
                 "sudo sed -i 's/^deb cdrom/# deb cdrom/' /etc/apt/sources.list",
-                "sudo sed -i 's#{{user `replace_deb_mirror`}}#{{user `replace_deb_mirror_with`}}#' /etc/apt/sources.list",
-                "echo 'Acquire::http::Proxy \"{{user `deb_mirror_proxy`}}\";' | sudo tee /etc/apt/apt.conf.d/00aptproxy",
+                "tmp=$(egrep '^deb http[s]*://[^ ]+ {{user `debian_release`}} main$' /etc/apt/sources.list|egrep -o 'http[s]*://[^ ]+'|cut -d'/' -f3) && (echo -n \"$tmp\" | tee /tmp/current_apt_host)",
+                "to_replace=\"$(cat /tmp/current_apt_host)/ftp.debian.org\" && sudo sed -i \"s#${to_replace}#ftp.debian.org#\" /etc/apt/sources.list",
+                "apt_proxy=$(cat /tmp/current_apt_host) && (echo \"Acquire::http::Proxy \\\"http://${apt_proxy}\\\";\" | sudo tee /etc/apt/apt.conf.d/00aptproxy)",
                 "sudo apt-get update",
                 "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y apt-transport-https gnupg2 software-properties-common net-tools dnsutils"
             ]

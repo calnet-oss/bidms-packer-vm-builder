@@ -47,7 +47,4 @@ use a new Debian release.
   [bidms-docker-apt-cacher](http://github.com/calnet-oss/bidms-docker-apt-cacher))
   because you're going to be downloading files from APT over and over again
   when using Packer to build Debian VMs.  Look for the `mirror/http` lines
-  in the preseed file and especially the `mirror/http/hostname`.  The APT
-  cache proxy hostname is also configured in
-  [packer-bidms.json](../packer-bidms.json) as `replace_deb_mirror` and
-  `deb_mirror_proxy`.
+  in the preseed file and especially the `mirror/http/hostname`.  
