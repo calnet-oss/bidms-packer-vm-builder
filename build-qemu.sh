@@ -27,6 +27,12 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 
+./precheck.sh
+if [ $? != 0 ]; then
+  echo "Prerequisites failed"
+  exit 1
+fi
+
 if [ -e output-qemu ]; then
   echo "Deleting previous build in the output-qemu directory"
   rm -rf output-qemu

@@ -38,7 +38,7 @@
         },
         {
             "type": "qemu",
-            "vm_name": "bidms",
+            "vm_name": "bidms.qcow2",
             "iso_url": "debian/debian-9.3.0-amd64-xfce-CD-1.iso",
             "iso_checksum": "0be8d6924cfd8df4a15466da0eceb4b66e5e23b121218d4e383a0623c251d35d",
             "iso_checksum_type": "sha256",
@@ -76,26 +76,27 @@
             "type": "shell",
             "pause_before": "15s",
             "inline": [
+                "echo 'Setting up APT'",
                 "echo '{{user `ssh_pass`}}' | sudo -S sed -i 's/%sudo\\tALL=(ALL:ALL) ALL/%sudo\\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers",
                 "sudo sed -i 's/^deb cdrom/# deb cdrom/' /etc/apt/sources.list",
                 "tmp=$(egrep '^deb http[s]*://[^ ]+ {{user `debian_release`}} main$' /etc/apt/sources.list|egrep -o 'http[s]*://[^ ]+'|cut -d'/' -f3) && (echo -n \"$tmp\" | tee /tmp/current_apt_host)",
                 "to_replace=\"$(cat /tmp/current_apt_host)/ftp.debian.org\" && sudo sed -i \"s#${to_replace}#ftp.debian.org#\" /etc/apt/sources.list",
-                "apt_proxy=$(cat /tmp/current_apt_host) && (echo \"Acquire::http::Proxy \\\"http://${apt_proxy}\\\";\" | sudo tee /etc/apt/apt.conf.d/00aptproxy)",
+                "apt_proxy=$(cat /tmp/current_apt_host) && (echo \"Acquire::http::Proxy \\\"http://${apt_proxy}\\\";\" | sudo tee /etc/apt/apt.conf.d/00aptproxy) && (echo -n \"http://${apt_proxy}\" > $HOME/.aptproxy)",
                 "sudo apt-get update",
-                "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y apt-transport-https gnupg2 software-properties-common net-tools dnsutils"
+                "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y apt-transport-https gnupg2 software-properties-common net-tools dnsutils joe openjdk-8-jdk-headless maven"
             ]
         },
         {
             "type": "shell",
-            "inline": ["echo 'Install guest agents'"],
+            "inline": ["echo 'Installing guest agents'"],
             "override": {
                 "virtualbox-iso": {
                     "inline": [
                         "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y build-essential module-assistant linux-headers-amd64",
-                        "sudo mount -o loop,ro /home/bidms/VBoxGuestAdditions.iso /media/cdrom",
+                        "sudo mount -o loop,ro $HOME/VBoxGuestAdditions.iso /media/cdrom",
                         "sudo /media/cdrom/VBoxLinuxAdditions.run",
                         "sudo umount /media/cdrom",
-                        "sudo rm -f /home/bidms/VBoxGuestAdditions.iso"
+                        "sudo rm -f $HOME/VBoxGuestAdditions.iso"
                     ]
                 },
                 "qemu": {
@@ -108,11 +109,27 @@
         {
             "type": "shell",
             "inline": [
+                "echo 'Installing Docker'",
                 "wget -q https://download.docker.com/linux/debian/gpg -O- | sudo apt-key add -",
                 "echo \"deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable\" | sudo tee /etc/apt/sources.list.d/docker.list",
                 "sudo apt-key fingerprint 0EBFCD88",
                 "sudo apt-get update",
-                "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y docker-ce"
+                "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y docker-ce",
+                "sudo usermod -a -G docker $USER"
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'Installing Docker bidms_nw network'",
+                "sudo su - $USER -c \"docker network create --driver bridge bidms_nw\""
+            ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'Setting up Docker prune crontab entry'",
+                "(echo '02 00  *   *   * /usr/bin/docker system prune -a -f' | tee /tmp/bidms.crontab) && crontab /tmp/bidms.crontab && rm -f /tmp/bidms.crontab"
             ]
         }
     ]
