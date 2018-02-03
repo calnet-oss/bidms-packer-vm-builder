@@ -41,4 +41,8 @@ time packer build -parallel=false \
   -only=qemu \
   $* \
   packer-bidms.json \
-&& (cd output-qemu && (sha256sum bidms.qcow2 > bidms.qcow2.sha256))
+&& ( \
+  cd output-qemu && \
+  echo "Generating SHA256 hash sum of bidms.qcow2" \
+  (sha256sum bidms.qcow2 > bidms.qcow2.sha256) \
+)
