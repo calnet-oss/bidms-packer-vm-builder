@@ -40,4 +40,5 @@ fi
 time packer build -parallel=false \
   -only=qemu \
   $* \
-  packer-bidms.json
+  packer-bidms.json \
+&& (cd output-qemu && (sha256sum bidms.qcow2 > bidms.qcow2.sha256))
