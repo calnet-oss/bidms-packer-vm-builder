@@ -10,4 +10,4 @@ qemu-system-x86_64 \
   -vnc 127.0.0.1:59 \
   -name bidms \
   -machine type=pc,accel=kvm \
-  -drive file=output-qemu/bidms,if=virtio,cache=writeback,discard=ignore,format=qcow2
+  -drive file=output-qemu/bidms.qcow2,if=virtio,cache=writeback,discard=ignore,format=qcow2
