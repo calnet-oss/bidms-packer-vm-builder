@@ -83,6 +83,7 @@
                 "to_replace=\"$(cat /tmp/current_apt_host)/ftp.debian.org\" && sudo sed -i \"s#${to_replace}#ftp.debian.org#\" /etc/apt/sources.list",
                 "apt_proxy=$(cat /tmp/current_apt_host) && (echo \"Acquire::http::Proxy \\\"http://${apt_proxy}\\\";\" | sudo tee /etc/apt/apt.conf.d/00aptproxy) && (echo -n \"http://${apt_proxy}\" > $HOME/.aptproxy)",
                 "sudo apt-get update",
+                "DEBIAN_FRONTEND=noninteractive && sudo apt-get dist-upgrade -y",
                 "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y apt-transport-https gnupg2 software-properties-common net-tools dnsutils joe openjdk-8-jdk-headless maven"
             ]
         },
@@ -92,7 +93,7 @@
             "override": {
                 "virtualbox-iso": {
                     "inline": [
-                        "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y build-essential module-assistant linux-headers-amd64",
+                        "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y build-essential module-assistant linux-headers-amd64 linux-headers-$(uname -r)",
                         "sudo mount -o loop,ro $HOME/VBoxGuestAdditions.iso /media/cdrom",
                         "sudo /media/cdrom/VBoxLinuxAdditions.run",
                         "sudo umount /media/cdrom",
