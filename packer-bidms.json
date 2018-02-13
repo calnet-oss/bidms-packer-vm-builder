@@ -89,6 +89,13 @@
         },
         {
             "type": "shell",
+            "inline": [
+                "echo 'Installing haveged to compensate for poor /dev/random entropy in VMs'",
+                "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y haveged && sudo systemctl enable haveged"
+            ]
+        },
+        {
+            "type": "shell",
             "inline": ["echo 'Installing guest agents'"],
             "override": {
                 "virtualbox-iso": {
