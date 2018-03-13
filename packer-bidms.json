@@ -109,7 +109,11 @@
                 },
                 "qemu": {
                     "inline": [
-                        "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y qemu-guest-agent"
+                        "echo 'Installing qemu-guest-agent.  In order to start up, it needs a virtserialport with the name of org.qemu.guest_agent.0.'",
+                        "DEBIAN_FRONTEND=noninteractive && sudo apt-get install -y qemu-guest-agent",
+                        "echo 'Installing work-around for Debian Bug #860240, a race condition bug that prevents qemu-guest-agent from starting up at boot time.'",
+                        "if [ ! -e /etc/rc.local ]; then (echo '#!/bin/sh' | sudo tee /etc/rc.local) && sudo chmod 755 /etc/rc.local; fi",
+                        "echo '(sleep 5; /bin/systemctl restart qemu-guest-agent) &' | sudo tee -a /etc/rc.local"
                     ]
                 }
             }
